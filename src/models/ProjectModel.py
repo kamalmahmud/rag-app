@@ -1,6 +1,8 @@
 from .db_schemes import Project
 from .BaseDataModel import BaseDataModel
 from .enums import DataBaseEnum
+
+
 class ProjectModel(BaseDataModel):
     def __init__(self, db_client: object):
         super().__init__(db_client)
@@ -24,7 +26,7 @@ class ProjectModel(BaseDataModel):
 
     async def create_project(self, project:Project):
         result = await self.collection.insert_one(project.dict(by_alias=True, exclude_unset=True))
-        project._id = result.inserted_id
+        project.id = result.inserted_id
         return project
 
     async def get_project_or_create_one(self, project_id:str):
